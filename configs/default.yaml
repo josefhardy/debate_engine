@@ -1,0 +1,49 @@
+# Default experiment configuration.
+#
+# Any OpenAI-compatible API works. Pick ONE provider block below, put your key in a
+# `.env`-style environment variable, and check the provider's current model list:
+# free-tier model names change often.
+#
+#   Groq:        base_url: https://api.groq.com/openai/v1                        key: GROQ_API_KEY
+#   Gemini:      base_url: https://generativelanguage.googleapis.com/v1beta/openai/  key: GEMINI_API_KEY
+#   OpenRouter:  base_url: https://openrouter.ai/api/v1                          key: OPENROUTER_API_KEY
+
+provider:
+  base_url: https://api.groq.com/openai/v1
+  api_key_env: GROQ_API_KEY
+  # Free tiers have tight rate limits; this spaces out requests (seconds).
+  min_seconds_between_requests: 2.0
+  max_retries: 6
+
+models:
+  # The core idea of debate: STRONGER models argue, a WEAKER model judges.
+  debater: llama-3.3-70b-versatile   # check provider's model list
+  judge: llama-3.1-8b-instant        # check provider's model list
+
+data:
+  path: data/QuALITY.v1.0.1.htmlstripped.dev
+  hard_only: true        # QuALITY's "difficult" subset: humans skimming got these wrong
+  n_questions: 100       # start small (e.g. 10) to test, then scale up
+  seed: 0
+
+debate:
+  rounds: 3
+  words_per_turn: 150
+
+retrieval:
+  # Debaters search the story for evidence rather than reading all of it.
+  passage_words: 120
+  passage_overlap_words: 30
+  top_k: 4
+
+quotes:
+  # Quotes are checked against the story. A quote counts as verified if it matches
+  # at least this well (0-100, fuzzy match to allow tiny whitespace/punctuation differences).
+  min_match_score: 95
+
+generation:
+  temperature: 0.4
+  max_tokens: 600
+
+cache_dir: .cache/llm
+output_dir: results
