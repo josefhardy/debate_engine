@@ -59,8 +59,8 @@ capable AI.
 ## Setup (macOS / Linux)
 
 ```bash
-git clone https://github.com/<your-username>/debate-engine.git
-cd debate-engine
+git clone https://github.com/josefhardy/debate_engine.git
+cd debate_engine
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 bash scripts/download_quality.sh
